@@ -2,6 +2,7 @@ package com.serviq.provider.exception;
 
 import com.serviq.provider.dto.ErrorResponse;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.validation.ConstraintViolationException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -9,10 +10,12 @@ import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.context.request.WebRequest;
 
 import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Slf4j
 @RestControllerAdvice
@@ -116,5 +119,112 @@ public class GlobalExceptionHandler {
                 .build();
 
         return new ResponseEntity<>(error, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    @ExceptionHandler(ProviderServiceNotFoundException.class)
+    public ResponseEntity<ErrorResponse> handleNotFoundException(
+            ProviderServiceNotFoundException ex, WebRequest request) {
+        log.error("Resource not found: {}", ex.getMessage());
+
+        ErrorResponse errorResponse = ErrorResponse.builder()
+                .timestamp(OffsetDateTime.now())
+                .status(HttpStatus.NOT_FOUND.value())
+                .error(HttpStatus.NOT_FOUND.getReasonPhrase())
+                .message(ex.getMessage())
+                .path(request.getDescription(false).replace("uri=", ""))
+                .build();
+
+        return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(ProviderServiceValidationException.class)
+    public ResponseEntity<ErrorResponse> handleValidationException(
+            ProviderServiceValidationException ex, WebRequest request) {
+        log.error("Validation error: {}", ex.getMessage());
+
+        ErrorResponse errorResponse = ErrorResponse.builder()
+                .timestamp(OffsetDateTime.now())
+                .status(HttpStatus.BAD_REQUEST.value())
+                .error(HttpStatus.BAD_REQUEST.getReasonPhrase())
+                .message(ex.getMessage())
+                .path(request.getDescription(false).replace("uri=", ""))
+                .build();
+
+        return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(ProviderServiceConflictException.class)
+    public ResponseEntity<ErrorResponse> handleConflictException(
+            ProviderServiceConflictException ex, WebRequest request) {
+        log.error("Conflict error: {}", ex.getMessage());
+
+        ErrorResponse errorResponse = ErrorResponse.builder()
+                .timestamp(OffsetDateTime.now())
+                .status(HttpStatus.CONFLICT.value())
+                .error(HttpStatus.CONFLICT.getReasonPhrase())
+                .message(ex.getMessage())
+                .path(request.getDescription(false).replace("uri=", ""))
+                .build();
+
+        return new ResponseEntity<>(errorResponse, HttpStatus.CONFLICT);
+    }
+
+    @ExceptionHandler(BusinessException.class)
+    public ResponseEntity<ErrorResponse> handleBusinessException(
+            BusinessException ex, WebRequest request) {
+
+        log.error("Business exception: {}", ex.getMessage());
+
+        ErrorResponse errorResponse = ErrorResponse.builder()
+                .timestamp(OffsetDateTime.now())
+                .status(HttpStatus.BAD_REQUEST.value())
+                .error(HttpStatus.BAD_REQUEST.getReasonPhrase())
+                .message(ex.getMessage())
+                .path(request.getDescription(false).replace("uri=", ""))
+                .errorCode(ex.getErrorCode())
+                .build();
+
+        return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(ConstraintViolationException.class)
+    public ResponseEntity<ErrorResponse> handleConstraintViolationException(
+            ConstraintViolationException ex, WebRequest request) {
+
+        log.error("Constraint violation: {}", ex.getMessage());
+
+        List<ErrorResponse.ValidationError> validationErrors = ex.getConstraintViolations().stream()
+                .map(violation -> ErrorResponse.ValidationError.builder()
+                        .field(violation.getPropertyPath().toString())
+                        .message(violation.getMessage())
+                        .rejectedValue(violation.getInvalidValue())
+                        .build())
+                .collect(Collectors.toList());
+
+        ErrorResponse errorResponse = ErrorResponse.builder()
+                .timestamp(OffsetDateTime.now())
+                .status(HttpStatus.BAD_REQUEST.value())
+                .error(HttpStatus.BAD_REQUEST.getReasonPhrase())
+                .message("Constraint violation")
+                .path(request.getDescription(false).replace("uri=", ""))
+                .errorCode("CONSTRAINT_VIOLATION")
+                .validationErrors(validationErrors)
+                .build();
+
+        return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(SlotConflictException.class)
+    public ResponseEntity<ErrorResponse> handleSlotConflictException(SlotConflictException ex) {
+        log.error("Slot conflict: {}", ex.getMessage());
+
+        ErrorResponse error = ErrorResponse.builder()
+                .timestamp(OffsetDateTime.now())
+                .status(HttpStatus.CONFLICT.value())
+                .error("Conflict")
+                .message(ex.getMessage())
+                .build();
+
+        return new ResponseEntity<>(error, HttpStatus.CONFLICT);
     }
 }

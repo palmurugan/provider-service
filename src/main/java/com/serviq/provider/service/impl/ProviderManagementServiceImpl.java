@@ -15,7 +15,7 @@ import com.serviq.provider.mapper.ProviderMapper;
 import com.serviq.provider.repository.ProviderContactRepository;
 import com.serviq.provider.repository.ProviderLocationRepository;
 import com.serviq.provider.repository.ProviderRepository;
-import com.serviq.provider.service.ProviderService;
+import com.serviq.provider.service.ProviderManagementService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -30,7 +30,7 @@ import java.util.UUID;
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
-public class ProviderServiceImpl implements ProviderService {
+public class ProviderManagementServiceImpl implements ProviderManagementService {
 
     private final ProviderRepository providerRepository;
     private final ProviderContactRepository contactRepository;

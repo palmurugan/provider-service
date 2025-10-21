@@ -5,7 +5,7 @@ import com.serviq.provider.dto.ProviderDTO;
 import com.serviq.provider.dto.ProviderLocationDTO;
 import com.serviq.provider.entity.enums.ProviderType;
 import com.serviq.provider.entity.enums.VerificationStatus;
-import com.serviq.provider.service.ProviderService;
+import com.serviq.provider.service.ProviderManagementService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
@@ -28,13 +28,13 @@ import java.util.UUID;
 @RequiredArgsConstructor
 @Tag(name = "Provider Management", description = "APIs for managing providers")
 public class ProviderController {
-    private final ProviderService providerService;
+    private final ProviderManagementService providerManagementService;
 
     @PostMapping
     @Operation(summary = "Create a new provider")
     public ResponseEntity<ProviderDTO> createProvider(@Valid @RequestBody ProviderDTO providerDTO) {
         log.info("REST request to create provider: {}", providerDTO.getName());
-        ProviderDTO created = providerService.createProvider(providerDTO);
+        ProviderDTO created = providerManagementService.createProvider(providerDTO);
         return new ResponseEntity<>(created, HttpStatus.CREATED);
     }
 
@@ -42,7 +42,7 @@ public class ProviderController {
     @Operation(summary = "Get provider by ID")
     public ResponseEntity<ProviderDTO> getProviderById(@PathVariable UUID id) {
         log.info("REST request to get provider: {}", id);
-        ProviderDTO provider = providerService.getProviderById(id);
+        ProviderDTO provider = providerManagementService.getProviderById(id);
         return ResponseEntity.ok(provider);
     }
 
@@ -52,7 +52,7 @@ public class ProviderController {
             @PathVariable UUID id,
             @Valid @RequestBody ProviderDTO providerDTO) {
         log.info("REST request to update provider: {}", id);
-        ProviderDTO updated = providerService.updateProvider(id, providerDTO);
+        ProviderDTO updated = providerManagementService.updateProvider(id, providerDTO);
         return ResponseEntity.ok(updated);
     }
 
@@ -60,7 +60,7 @@ public class ProviderController {
     @Operation(summary = "Delete provider (soft delete)")
     public ResponseEntity<Void> deleteProvider(@PathVariable UUID id) {
         log.info("REST request to delete provider: {}", id);
-        providerService.deleteProvider(id);
+        providerManagementService.deleteProvider(id);
         return ResponseEntity.noContent().build();
     }
 
@@ -69,7 +69,7 @@ public class ProviderController {
     public ResponseEntity<Page<ProviderDTO>> getAllProviders(
             @PageableDefault(size = 20, sort = "createdAt", direction = Sort.Direction.DESC) Pageable pageable) {
         log.info("REST request to get all providers");
-        Page<ProviderDTO> providers = providerService.getAllProviders(pageable);
+        Page<ProviderDTO> providers = providerManagementService.getAllProviders(pageable);
         return ResponseEntity.ok(providers);
     }
 
@@ -77,7 +77,7 @@ public class ProviderController {
     @Operation(summary = "Get providers by organization ID")
     public ResponseEntity<List<ProviderDTO>> getProvidersByOrgId(@PathVariable UUID orgId) {
         log.info("REST request to get providers for org: {}", orgId);
-        List<ProviderDTO> providers = providerService.getProvidersByOrgId(orgId);
+        List<ProviderDTO> providers = providerManagementService.getProvidersByOrgId(orgId);
         return ResponseEntity.ok(providers);
     }
 
@@ -87,7 +87,7 @@ public class ProviderController {
             @PathVariable ProviderType providerType,
             @PageableDefault(size = 20) Pageable pageable) {
         log.info("REST request to get providers by type: {}", providerType);
-        Page<ProviderDTO> providers = providerService.getProvidersByType(providerType, pageable);
+        Page<ProviderDTO> providers = providerManagementService.getProvidersByType(providerType, pageable);
         return ResponseEntity.ok(providers);
     }
 
@@ -97,7 +97,7 @@ public class ProviderController {
             @PathVariable VerificationStatus status,
             @PageableDefault(size = 20) Pageable pageable) {
         log.info("REST request to get providers by verification status: {}", status);
-        Page<ProviderDTO> providers = providerService.getProvidersByVerificationStatus(status, pageable);
+        Page<ProviderDTO> providers = providerManagementService.getProvidersByVerificationStatus(status, pageable);
         return ResponseEntity.ok(providers);
     }
 
@@ -107,7 +107,7 @@ public class ProviderController {
             @RequestParam String searchTerm,
             @PageableDefault(size = 20) Pageable pageable) {
         log.info("REST request to search providers: {}", searchTerm);
-        Page<ProviderDTO> providers = providerService.searchProviders(searchTerm, pageable);
+        Page<ProviderDTO> providers = providerManagementService.searchProviders(searchTerm, pageable);
         return ResponseEntity.ok(providers);
     }
 
@@ -117,7 +117,7 @@ public class ProviderController {
             @PathVariable UUID id,
             @RequestParam VerificationStatus status) {
         log.info("REST request to update verification status for provider {}: {}", id, status);
-        ProviderDTO updated = providerService.updateVerificationStatus(id, status);
+        ProviderDTO updated = providerManagementService.updateVerificationStatus(id, status);
         return ResponseEntity.ok(updated);
     }
 
@@ -125,7 +125,7 @@ public class ProviderController {
     @Operation(summary = "Complete provider onboarding")
     public ResponseEntity<ProviderDTO> completeOnboarding(@PathVariable UUID id) {
         log.info("REST request to complete onboarding for provider: {}", id);
-        ProviderDTO updated = providerService.completeOnboarding(id);
+        ProviderDTO updated = providerManagementService.completeOnboarding(id);
         return ResponseEntity.ok(updated);
     }
 
@@ -136,7 +136,7 @@ public class ProviderController {
             @PathVariable UUID providerId,
             @Valid @RequestBody ProviderContactDTO contactDTO) {
         log.info("REST request to add contact for provider: {}", providerId);
-        ProviderContactDTO created = providerService.addContact(providerId, contactDTO);
+        ProviderContactDTO created = providerManagementService.addContact(providerId, contactDTO);
         return new ResponseEntity<>(created, HttpStatus.CREATED);
     }
 
@@ -144,7 +144,7 @@ public class ProviderController {
     @Operation(summary = "Get all contacts for provider")
     public ResponseEntity<List<ProviderContactDTO>> getProviderContacts(@PathVariable UUID providerId) {
         log.info("REST request to get contacts for provider: {}", providerId);
-        List<ProviderContactDTO> contacts = providerService.getProviderContacts(providerId);
+        List<ProviderContactDTO> contacts = providerManagementService.getProviderContacts(providerId);
         return ResponseEntity.ok(contacts);
     }
 
@@ -155,7 +155,7 @@ public class ProviderController {
             @PathVariable UUID contactId,
             @Valid @RequestBody ProviderContactDTO contactDTO) {
         log.info("REST request to update contact {} for provider: {}", contactId, providerId);
-        ProviderContactDTO updated = providerService.updateContact(providerId, contactId, contactDTO);
+        ProviderContactDTO updated = providerManagementService.updateContact(providerId, contactId, contactDTO);
         return ResponseEntity.ok(updated);
     }
 
@@ -165,7 +165,7 @@ public class ProviderController {
             @PathVariable UUID providerId,
             @PathVariable UUID contactId) {
         log.info("REST request to delete contact {} for provider: {}", contactId, providerId);
-        providerService.deleteContact(providerId, contactId);
+        providerManagementService.deleteContact(providerId, contactId);
         return ResponseEntity.noContent().build();
     }
 
@@ -176,7 +176,7 @@ public class ProviderController {
             @PathVariable UUID providerId,
             @Valid @RequestBody ProviderLocationDTO locationDTO) {
         log.info("REST request to add location for provider: {}", providerId);
-        ProviderLocationDTO created = providerService.addLocation(providerId, locationDTO);
+        ProviderLocationDTO created = providerManagementService.addLocation(providerId, locationDTO);
         return new ResponseEntity<>(created, HttpStatus.CREATED);
     }
 
@@ -184,7 +184,7 @@ public class ProviderController {
     @Operation(summary = "Get all locations for provider")
     public ResponseEntity<List<ProviderLocationDTO>> getProviderLocations(@PathVariable UUID providerId) {
         log.info("REST request to get locations for provider: {}", providerId);
-        List<ProviderLocationDTO> locations = providerService.getProviderLocations(providerId);
+        List<ProviderLocationDTO> locations = providerManagementService.getProviderLocations(providerId);
         return ResponseEntity.ok(locations);
     }
 
@@ -195,7 +195,7 @@ public class ProviderController {
             @PathVariable UUID locationId,
             @Valid @RequestBody ProviderLocationDTO locationDTO) {
         log.info("REST request to update location {} for provider: {}", locationId, providerId);
-        ProviderLocationDTO updated = providerService.updateLocation(providerId, locationId, locationDTO);
+        ProviderLocationDTO updated = providerManagementService.updateLocation(providerId, locationId, locationDTO);
         return ResponseEntity.ok(updated);
     }
 
@@ -205,7 +205,7 @@ public class ProviderController {
             @PathVariable UUID providerId,
             @PathVariable UUID locationId) {
         log.info("REST request to delete location {} for provider: {}", locationId, providerId);
-        providerService.deleteLocation(providerId, locationId);
+        providerManagementService.deleteLocation(providerId, locationId);
         return ResponseEntity.noContent().build();
     }
 
@@ -215,7 +215,7 @@ public class ProviderController {
             @PathVariable UUID providerId,
             @PathVariable UUID locationId) {
         log.info("REST request to set primary location {} for provider: {}", locationId, providerId);
-        ProviderLocationDTO updated = providerService.setPrimaryLocation(providerId, locationId);
+        ProviderLocationDTO updated = providerManagementService.setPrimaryLocation(providerId, locationId);
         return ResponseEntity.ok(updated);
     }
 }

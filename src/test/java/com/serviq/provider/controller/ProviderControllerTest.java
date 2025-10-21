@@ -4,7 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.serviq.provider.dto.ProviderDTO;
 import com.serviq.provider.entity.enums.ProviderType;
 import com.serviq.provider.entity.enums.VerificationStatus;
-import com.serviq.provider.service.ProviderService;
+import com.serviq.provider.service.ProviderManagementService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,7 +34,7 @@ public class ProviderControllerTest {
     private ObjectMapper objectMapper;
 
     @MockitoBean
-    private ProviderService providerService;
+    private ProviderManagementService providerManagementService;
 
     private ProviderDTO testProviderDTO;
     private UUID testId;
@@ -59,7 +59,7 @@ public class ProviderControllerTest {
 
     @Test
     void createProvider_Success() throws Exception {
-        when(providerService.createProvider(any())).thenReturn(testProviderDTO);
+        when(providerManagementService.createProvider(any())).thenReturn(testProviderDTO);
 
         mockMvc.perform(post("/api/v1/providers")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -68,7 +68,7 @@ public class ProviderControllerTest {
                 .andExpect(jsonPath("$.id").value(testId.toString()))
                 .andExpect(jsonPath("$.name").value("Test Provider"));
 
-        verify(providerService, times(1)).createProvider(any());
+        verify(providerManagementService, times(1)).createProvider(any());
     }
 
     @Test
@@ -80,24 +80,24 @@ public class ProviderControllerTest {
                         .content(objectMapper.writeValueAsString(invalidDTO)))
                 .andExpect(status().isBadRequest());
 
-        verify(providerService, never()).createProvider(any());
+        verify(providerManagementService, never()).createProvider(any());
     }
 
     @Test
     void getProviderById_Success() throws Exception {
-        when(providerService.getProviderById(testId)).thenReturn(testProviderDTO);
+        when(providerManagementService.getProviderById(testId)).thenReturn(testProviderDTO);
 
         mockMvc.perform(get("/api/v1/providers/{id}", testId))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").value(testId.toString()))
                 .andExpect(jsonPath("$.name").value("Test Provider"));
 
-        verify(providerService, times(1)).getProviderById(testId);
+        verify(providerManagementService, times(1)).getProviderById(testId);
     }
 
     @Test
     void updateProvider_Success() throws Exception {
-        when(providerService.updateProvider(eq(testId), any())).thenReturn(testProviderDTO);
+        when(providerManagementService.updateProvider(eq(testId), any())).thenReturn(testProviderDTO);
 
         mockMvc.perform(put("/api/v1/providers/{id}", testId)
                         .contentType(MediaType.APPLICATION_JSON)
@@ -105,76 +105,76 @@ public class ProviderControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").value(testId.toString()));
 
-        verify(providerService, times(1)).updateProvider(eq(testId), any());
+        verify(providerManagementService, times(1)).updateProvider(eq(testId), any());
     }
 
     @Test
     void deleteProvider_Success() throws Exception {
-        doNothing().when(providerService).deleteProvider(testId);
+        doNothing().when(providerManagementService).deleteProvider(testId);
 
         mockMvc.perform(delete("/api/v1/providers/{id}", testId))
                 .andExpect(status().isNoContent());
 
-        verify(providerService, times(1)).deleteProvider(testId);
+        verify(providerManagementService, times(1)).deleteProvider(testId);
     }
 
     @Test
     void getAllProviders_Success() throws Exception {
         Page<ProviderDTO> page = new PageImpl<>(List.of(testProviderDTO), PageRequest.of(0, 20), 1);
-        when(providerService.getAllProviders(any())).thenReturn(page);
+        when(providerManagementService.getAllProviders(any())).thenReturn(page);
 
         mockMvc.perform(get("/api/v1/providers"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.content[0].name").value("Test Provider"))
                 .andExpect(jsonPath("$.totalElements").value(1));
 
-        verify(providerService, times(1)).getAllProviders(any());
+        verify(providerManagementService, times(1)).getAllProviders(any());
     }
 
     @Test
     void getProvidersByOrgId_Success() throws Exception {
-        when(providerService.getProvidersByOrgId(testOrgId)).thenReturn(List.of(testProviderDTO));
+        when(providerManagementService.getProvidersByOrgId(testOrgId)).thenReturn(List.of(testProviderDTO));
 
         mockMvc.perform(get("/api/v1/providers/organization/{orgId}", testOrgId))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$[0].orgId").value(testOrgId.toString()));
 
-        verify(providerService, times(1)).getProvidersByOrgId(testOrgId);
+        verify(providerManagementService, times(1)).getProvidersByOrgId(testOrgId);
     }
 
     @Test
     void searchProviders_Success() throws Exception {
         Page<ProviderDTO> page = new PageImpl<>(List.of(testProviderDTO), PageRequest.of(0, 20), 1);
-        when(providerService.searchProviders(eq("Test"), any())).thenReturn(page);
+        when(providerManagementService.searchProviders(eq("Test"), any())).thenReturn(page);
 
         mockMvc.perform(get("/api/v1/providers/search")
                         .param("searchTerm", "Test"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.content[0].name").value("Test Provider"));
 
-        verify(providerService, times(1)).searchProviders(eq("Test"), any());
+        verify(providerManagementService, times(1)).searchProviders(eq("Test"), any());
     }
 
     @Test
     void updateVerificationStatus_Success() throws Exception {
-        when(providerService.updateVerificationStatus(testId, VerificationStatus.VERIFIED))
+        when(providerManagementService.updateVerificationStatus(testId, VerificationStatus.VERIFIED))
                 .thenReturn(testProviderDTO);
 
         mockMvc.perform(patch("/api/v1/providers/{id}/verification-status", testId)
                         .param("status", "VERIFIED"))
                 .andExpect(status().isOk());
 
-        verify(providerService, times(1))
+        verify(providerManagementService, times(1))
                 .updateVerificationStatus(testId, VerificationStatus.VERIFIED);
     }
 
     @Test
     void completeOnboarding_Success() throws Exception {
-        when(providerService.completeOnboarding(testId)).thenReturn(testProviderDTO);
+        when(providerManagementService.completeOnboarding(testId)).thenReturn(testProviderDTO);
 
         mockMvc.perform(patch("/api/v1/providers/{id}/complete-onboarding", testId))
                 .andExpect(status().isOk());
 
-        verify(providerService, times(1)).completeOnboarding(testId);
+        verify(providerManagementService, times(1)).completeOnboarding(testId);
     }
 }

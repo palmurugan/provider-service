@@ -10,7 +10,7 @@ import com.serviq.provider.mapper.ProviderMapper;
 import com.serviq.provider.repository.ProviderContactRepository;
 import com.serviq.provider.repository.ProviderLocationRepository;
 import com.serviq.provider.repository.ProviderRepository;
-import com.serviq.provider.service.impl.ProviderServiceImpl;
+import com.serviq.provider.service.impl.ProviderManagementServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -32,7 +32,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
-public class ProviderServiceImplTest {
+public class ProviderManagementServiceImplTest {
 
     @Mock
     private ProviderRepository providerRepository;
@@ -47,7 +47,7 @@ public class ProviderServiceImplTest {
     private ProviderMapper providerMapper;
 
     @InjectMocks
-    private ProviderServiceImpl providerService;
+    private ProviderManagementServiceImpl providerService;
 
     private Provider testProvider;
     private ProviderDTO testProviderDTO;

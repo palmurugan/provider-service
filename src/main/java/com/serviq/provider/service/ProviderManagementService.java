@@ -11,7 +11,7 @@ import org.springframework.data.domain.Pageable;
 import java.util.List;
 import java.util.UUID;
 
-public interface ProviderService {
+public interface ProviderManagementService {
 
     ProviderDTO createProvider(ProviderDTO providerDTO);
 

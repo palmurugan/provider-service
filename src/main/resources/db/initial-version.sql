@@ -47,3 +47,76 @@ CREATE TABLE "provider_location" (
 ALTER TABLE "provider_contact" ADD FOREIGN KEY ("provider_id") REFERENCES "provider" ("id");
 
 ALTER TABLE "provider_location" ADD FOREIGN KEY ("provider_id") REFERENCES "provider" ("id");
+
+CREATE TABLE provider_service (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  org_id uuid NOT NULL,
+  provider_id UUID NOT NULL,
+  category_id UUID NOT NULL,
+  title TEXT NOT NULL,
+  duration INT not null,
+  unit VARCHAR(12) DEFAULT 'MINIUTES',
+  price NUMERIC(12,2),
+  currency VARCHAR(3) DEFAULT 'INR',
+  max_capacity INT DEFAULT 1,
+  is_active BOOLEAN DEFAULT true,
+  metadata JSONB, -- any custom options or tags
+  created_at TIMESTAMPTZ DEFAULT now(),
+  updated_at TIMESTAMPTZ DEFAULT now()
+);
+
+
+CREATE TYPE config_type AS ENUM (
+  'RECURRING',
+  'ONE_TIME',
+  'OVERRIDE'
+);
+
+CREATE TABLE availability_config (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  provider_id UUID NOT NULL REFERENCES provider(id),
+  service_id UUID REFERENCES provider_service(id), -- NULL means applies to all services
+  config_type varchar NOT NULL DEFAULT 'RECURRING',
+
+  -- Time configuration
+  start_date DATE NOT NULL,
+  end_date DATE, -- NULL means ongoing
+  start_time TIME NOT NULL,
+  end_time TIME NOT NULL,
+  timezone TEXT DEFAULT 'UTC',
+
+  -- Recurrence rules in JSONB
+  recurrence_config JSONB NOT NULL DEFAULT '{}',
+
+  -- Capacity and availability
+  max_concurrent_bookings INTEGER DEFAULT 1,
+  is_active BOOLEAN DEFAULT true,
+
+  -- Metadata
+  metadata JSONB DEFAULT '{}',
+  created_at TIMESTAMPTZ DEFAULT now(),
+  updated_at TIMESTAMPTZ DEFAULT now(),
+
+  CHECK (start_time < end_time),
+  CHECK (end_date IS NULL OR end_date >= start_date)
+);
+
+-- Booking related tables
+CREATE TABLE provider.slots (
+    id uuid PRIMARY key,
+    org_id uuid NOT NULL,
+    provider_id uuid NOT NULL,
+    provider_service_id uuid NOT NULL,
+    slot_date DATE NOT NULL,
+    start_time TIME NOT NULL,
+    end_time TIME NOT NULL,
+    duration_minutes INT NOT NULL,
+    capacity INT DEFAULT 1,
+    booked_count INT DEFAULT 0,
+    status varchar(50) DEFAULT 'available',
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+
+    FOREIGN KEY (provider_id) REFERENCES provider(id),
+    FOREIGN KEY (provider_service_id) REFERENCES provider_service(id)
+);
