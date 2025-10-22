@@ -29,14 +29,22 @@ spring:
             non_contextual_creation: true
   kafka:
     bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVERS:localhost:9092}
-    properties:
-      schema.registry.url: ${SCHEMA_REGISTRY_URL:http://localhost:8081}
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: io.confluent.kafka.serializers.KafkaAvroSerializer
+      acks: all
+      retries: 3
+      properties:
+        schema.registry.url: ${SCHEMA_REGISTRY_URL:http://localhost:8081}
+        max.in.flight.requests.per.connection: 1
+        enable.idempotence: true
+        compression.type: snappy
 
 kafka:
   topic:
-    category-events: dev.catalog.category.events
+    service-events: dev.provider.service.events
   consumer:
-    group-id: category-search-indexer
+    group-id: service-search-indexer
 
 opensearch:
   host: ${OPENSEARCH_HOST:localhost}

@@ -1,11 +1,15 @@
 package com.serviq.provider.service.impl;
 
+import com.serviq.provider.dto.event.ServiceEventDto;
 import com.serviq.provider.dto.request.CreateProviderServiceRequest;
 import com.serviq.provider.dto.request.UpdateProviderServiceRequest;
 import com.serviq.provider.dto.response.ProviderServiceResponse;
+import com.serviq.provider.entity.Provider;
 import com.serviq.provider.entity.ProviderService;
+import com.serviq.provider.events.EventPublisher;
 import com.serviq.provider.exception.ProviderServiceNotFoundException;
 import com.serviq.provider.mapper.ProviderServiceMapper;
+import com.serviq.provider.repository.ProviderRepository;
 import com.serviq.provider.repository.ProviderServiceRepository;
 import com.serviq.provider.service.ProviderServiceService;
 import lombok.RequiredArgsConstructor;
@@ -15,18 +19,21 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Slf4j
 @Service
 @RequiredArgsConstructor
-@Transactional(readOnly = true)
 public class ProviderServiceServiceImpl implements ProviderServiceService {
 
+    private final ProviderRepository providerRepository;
     private final ProviderServiceRepository repository;
     private final ProviderServiceMapper mapper;
+    private final EventPublisher<ServiceEventDto> serviceEventPublisher;
 
     @Override
     @Transactional
@@ -35,6 +42,8 @@ public class ProviderServiceServiceImpl implements ProviderServiceService {
 
         ProviderService entity = mapper.toEntity(request);
         ProviderService savedEntity = repository.save(entity);
+
+        publishServiceCreatedEvent(savedEntity);
 
         log.info("Successfully created provider service with id: {}", savedEntity.getId());
         return mapper.toResponse(savedEntity);
@@ -161,5 +170,40 @@ public class ProviderServiceServiceImpl implements ProviderServiceService {
 
         repository.deleteById(id);
         log.info("Successfully deleted provider service with id: {}", id);
+    }
+
+    private void publishServiceCreatedEvent(ProviderService providerService) {
+        log.info("Publishing service created event for service: {}", providerService.getId());
+        try {
+            Optional<Provider> provider = providerRepository.findById(providerService.getProviderId());
+            if (provider.isEmpty()) {
+                throw new ProviderServiceNotFoundException(providerService.getId());
+            }
+
+            ServiceEventDto eventDto = ServiceEventDto.builder()
+                    .eventId(UUID.randomUUID().toString())
+                    .serviceId(String.valueOf(providerService.getId()))
+                    .eventType("SERVICE_CREATED")
+                    .occurredOn(String.valueOf(new Date()))
+                    .orgId(providerService.getOrgId().toString())
+                    .serviceId(providerService.getId().toString())
+                    .title(providerService.getTitle())
+                    .categoryId(providerService.getCategoryId().toString())
+                    .category("HealthCare")
+                    .providerId(providerService.getProviderId().toString())
+                    .providerName(provider.get().getName())
+                    .duration(providerService.getDuration())
+                    .unit(providerService.getUnit())
+                    .price(providerService.getPrice())
+                    .currency(providerService.getCurrency())
+                    .latitude(null)
+                    .longitude(null)
+                    .isActive(providerService.getIsActive())
+                    .build();
+            serviceEventPublisher.publish(eventDto);
+        } catch (Exception e) {
+            log.error("Failed to publish service created event, but service was saved. ServiceId: {}",
+                    providerService.getId(), e);
+        }
     }
 }
