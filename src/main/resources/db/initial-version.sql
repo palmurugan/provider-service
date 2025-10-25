@@ -101,6 +101,38 @@ CREATE TABLE availability_config (
   CHECK (end_date IS NULL OR end_date >= start_date)
 );
 
+-- Location related table changes
+CREATE TABLE provider.locations (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    org_id UUID NOT NULL,
+    name VARCHAR(255) NOT NULL,
+    city VARCHAR(100) NOT NULL,
+    state VARCHAR(100) NOT NULL,
+    country VARCHAR(100) NOT NULL,
+    postal_code VARCHAR(20),
+    latitude DECIMAL(10, 8),
+    longitude DECIMAL(11, 8),
+    is_active BOOLEAN DEFAULT true,
+    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    created_by VARCHAR(100),
+    updated_by VARCHAR(100)
+);
+
+CREATE TABLE provider.service_locations (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    org_id UUID NOT NULL,
+    service_id UUID NOT NULL,
+    location_id UUID NOT NULL,
+    is_primary BOOLEAN DEFAULT false,
+    is_active BOOLEAN DEFAULT true,
+    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+
+ALTER TABLE provider.service_locations ADD FOREIGN KEY ("service_id") REFERENCES provider.provider_service ("id");
+ALTER TABLE provider.service_locations ADD FOREIGN KEY ("location_id") REFERENCES provider.locations ("id");
+
+
 -- Booking related tables
 CREATE TABLE provider.slots (
     id uuid PRIMARY key,

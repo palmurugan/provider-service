@@ -3,9 +3,11 @@ package com.serviq.provider.service;
 import com.serviq.provider.dto.request.CreateProviderServiceRequest;
 import com.serviq.provider.dto.request.UpdateProviderServiceRequest;
 import com.serviq.provider.dto.response.ProviderServiceResponse;
+import com.serviq.provider.entity.Location;
 import com.serviq.provider.entity.ProviderService;
 import com.serviq.provider.exception.ProviderServiceNotFoundException;
 import com.serviq.provider.mapper.ProviderServiceMapper;
+import com.serviq.provider.repository.LocationRepository;
 import com.serviq.provider.repository.ProviderServiceRepository;
 import com.serviq.provider.service.impl.ProviderServiceServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
@@ -37,6 +39,9 @@ public class ProviderServiceServiceImplTest {
     private ProviderServiceRepository repository;
 
     @Mock
+    private LocationRepository locationRepository;
+
+    @Mock
     private ProviderServiceMapper mapper;
 
     @InjectMocks
@@ -46,10 +51,12 @@ public class ProviderServiceServiceImplTest {
     private UUID orgId;
     private UUID providerId;
     private UUID categoryId;
+    private UUID locationId;
     private ProviderService entity;
     private ProviderServiceResponse response;
     private CreateProviderServiceRequest createRequest;
     private UpdateProviderServiceRequest updateRequest;
+    private Location location;
 
     @BeforeEach
     void setUp() {
@@ -57,6 +64,8 @@ public class ProviderServiceServiceImplTest {
         orgId = UUID.randomUUID();
         providerId = UUID.randomUUID();
         categoryId = UUID.randomUUID();
+        locationId = UUID.randomUUID();
+        List<UUID> locationIds = List.of(locationId);
 
         entity = ProviderService.builder()
                 .id(serviceId)
@@ -94,6 +103,8 @@ public class ProviderServiceServiceImplTest {
                 .orgId(orgId)
                 .providerId(providerId)
                 .categoryId(categoryId)
+                .locationIds(locationIds)
+                .primaryLocationId(locationId)
                 .title("Consultation Service")
                 .duration(30)
                 .unit("MINUTES")
@@ -109,6 +120,12 @@ public class ProviderServiceServiceImplTest {
                 .duration(45)
                 .price(new BigDecimal("150.00"))
                 .build();
+
+        location = Location.builder()
+                .id(locationId)
+                .name("Location")
+                .isActive(true)
+                .build();
     }
 
     @Test
@@ -118,6 +135,7 @@ public class ProviderServiceServiceImplTest {
         when(mapper.toEntity(createRequest)).thenReturn(entity);
         when(repository.save(entity)).thenReturn(entity);
         when(mapper.toResponse(entity)).thenReturn(response);
+        when(locationRepository.findAllById(List.of(locationId))).thenReturn(List.of(location));
 
         // When
         ProviderServiceResponse result = service.createService(createRequest);

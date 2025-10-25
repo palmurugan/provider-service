@@ -4,11 +4,15 @@ import com.serviq.provider.dto.event.ServiceEventDto;
 import com.serviq.provider.dto.request.CreateProviderServiceRequest;
 import com.serviq.provider.dto.request.UpdateProviderServiceRequest;
 import com.serviq.provider.dto.response.ProviderServiceResponse;
+import com.serviq.provider.entity.Location;
 import com.serviq.provider.entity.Provider;
 import com.serviq.provider.entity.ProviderService;
+import com.serviq.provider.entity.ServiceLocation;
 import com.serviq.provider.events.EventPublisher;
 import com.serviq.provider.exception.ProviderServiceNotFoundException;
+import com.serviq.provider.exception.ResourceNotFoundException;
 import com.serviq.provider.mapper.ProviderServiceMapper;
+import com.serviq.provider.repository.LocationRepository;
 import com.serviq.provider.repository.ProviderRepository;
 import com.serviq.provider.repository.ProviderServiceRepository;
 import com.serviq.provider.service.ProviderServiceService;
@@ -32,6 +36,7 @@ public class ProviderServiceServiceImpl implements ProviderServiceService {
 
     private final ProviderRepository providerRepository;
     private final ProviderServiceRepository repository;
+    private final LocationRepository locationRepository;
     private final ProviderServiceMapper mapper;
     private final EventPublisher<ServiceEventDto> serviceEventPublisher;
 
@@ -40,10 +45,19 @@ public class ProviderServiceServiceImpl implements ProviderServiceService {
     public ProviderServiceResponse createService(CreateProviderServiceRequest request) {
         log.info("Creating provider service for provider: {}", request.getProviderId());
 
+        // Validate locations before creating service
+        validateAndFetchLocations(request);
+
         ProviderService entity = mapper.toEntity(request);
         ProviderService savedEntity = repository.save(entity);
 
-        publishServiceCreatedEvent(savedEntity);
+        // Assign locations to service
+        assignLocationsToService(savedEntity, request);
+
+        // Flush to ensure locations are persisted before publishing event
+        repository.flush();
+
+       // publishServiceCreatedEvent(savedEntity);
 
         log.info("Successfully created provider service with id: {}", savedEntity.getId());
         return mapper.toResponse(savedEntity);
@@ -205,5 +219,60 @@ public class ProviderServiceServiceImpl implements ProviderServiceService {
             log.error("Failed to publish service created event, but service was saved. ServiceId: {}",
                     providerService.getId(), e);
         }
+    }
+
+    private void validateAndFetchLocations(CreateProviderServiceRequest request) {
+        log.debug("Validating locations for service creation");
+
+        // Validate that primary location is in the list
+        if (!request.getLocationIds().contains(request.getPrimaryLocationId())) {
+            throw new IllegalArgumentException(
+                    "Primary location ID must be included in the location IDs list");
+        }
+
+        // Fetch and validate all locations exist
+        List<Location> locations = locationRepository.findAllById(request.getLocationIds());
+        if (locations.size() != request.getLocationIds().size()) {
+            throw new ResourceNotFoundException("One or more location IDs are invalid");
+        }
+
+        // Validate all locations are active
+        locations.forEach(location -> {
+            if (!location.getIsActive()) {
+                throw new IllegalStateException(
+                        "Cannot assign inactive location: " + location.getName());
+            }
+        });
+
+        log.debug("All locations validated successfully");
+    }
+
+    private void assignLocationsToService(ProviderService service, CreateProviderServiceRequest request) {
+        log.debug("Assigning {} location(s) to service: {}",
+                request.getLocationIds().size(), service.getId());
+
+        // Fetch all validated locations
+        List<Location> locations = locationRepository.findAllById(request.getLocationIds());
+
+        // Create service-location mappings
+        locations.forEach(location -> {
+            boolean isPrimary = location.getId().equals(request.getPrimaryLocationId());
+
+            ServiceLocation serviceLocation = ServiceLocation.builder()
+                    .orgId(request.getOrgId())
+                    .service(service)
+                    .location(location)
+                    .isPrimary(isPrimary)
+                    .build();
+
+            service.getServiceLocations().add(serviceLocation);
+
+            if (isPrimary) {
+                log.debug("Assigned primary location: {} to service: {}",
+                        location.getName(), service.getId());
+            }
+        });
+
+        log.debug("Successfully assigned all locations to service: {}", service.getId());
     }
 }

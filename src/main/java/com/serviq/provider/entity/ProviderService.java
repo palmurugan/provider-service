@@ -2,22 +2,22 @@ package com.serviq.provider.entity;
 
 import io.hypersistence.utils.hibernate.type.json.JsonBinaryType;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.Type;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 import java.util.UUID;
 
 @Entity
 @Table(name = "provider_service")
 @EntityListeners(AuditingEntityListener.class)
-@Data
+@Getter
+@Setter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
@@ -35,6 +35,10 @@ public class ProviderService {
 
     @Column(name = "category_id", nullable = false)
     private UUID categoryId;
+
+    @OneToMany(mappedBy = "service", cascade = CascadeType.ALL, orphanRemoval = true)
+    @Builder.Default
+    private Set<ServiceLocation> serviceLocations = new HashSet<>();
 
     @Column(nullable = false, columnDefinition = "TEXT")
     private String title;
@@ -70,6 +74,21 @@ public class ProviderService {
 
     @Column(name = "updated_at", nullable = false)
     private LocalDateTime updatedAt;
+
+    public void addLocation(Location location, boolean isPrimary) {
+        ServiceLocation serviceLocation = ServiceLocation.builder()
+                .service(this)
+                .location(location)
+                .isPrimary(isPrimary)
+                .isActive(true)
+                .build();
+        serviceLocations.add(serviceLocation);
+        //location.getServiceLocations().add(serviceLocation);
+    }
+
+    public void removeLocation(Location location) {
+        serviceLocations.removeIf(sl -> sl.getLocation().equals(location));
+    }
 
     @PrePersist
     protected void onCreate() {

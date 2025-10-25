@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -24,6 +25,12 @@ public class CreateProviderServiceRequest {
 
     @NotNull(message = "Category ID is required")
     private UUID categoryId;
+
+    @NotEmpty(message = "At least one location must be provided")
+    private List<UUID> locationIds;
+
+    @NotNull(message = "Primary location ID is required")
+    private UUID primaryLocationId;
 
     @NotBlank(message = "Title is required")
     @Size(min = 3, max = 500, message = "Title must be between 3 and 500 characters")
