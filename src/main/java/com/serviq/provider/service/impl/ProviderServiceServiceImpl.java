@@ -18,6 +18,7 @@ import com.serviq.provider.repository.ProviderServiceRepository;
 import com.serviq.provider.service.ProviderServiceService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -40,6 +41,9 @@ public class ProviderServiceServiceImpl implements ProviderServiceService {
     private final ProviderServiceMapper mapper;
     private final EventPublisher<ServiceEventDto> serviceEventPublisher;
 
+    @Value("${event.publisher.enabled}")
+    private boolean eventPublisherEnabled;
+
     @Override
     @Transactional
     public ProviderServiceResponse createService(CreateProviderServiceRequest request) {
@@ -57,7 +61,9 @@ public class ProviderServiceServiceImpl implements ProviderServiceService {
         // Flush to ensure locations are persisted before publishing event
         repository.flush();
 
-       // publishServiceCreatedEvent(savedEntity);
+        if(eventPublisherEnabled) {
+            publishServiceCreatedEvent(savedEntity);
+        }
 
         log.info("Successfully created provider service with id: {}", savedEntity.getId());
         return mapper.toResponse(savedEntity);
@@ -79,6 +85,7 @@ public class ProviderServiceServiceImpl implements ProviderServiceService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public ProviderServiceResponse getServiceById(UUID id) {
         log.debug("Fetching provider service with id: {}", id);
 
@@ -194,6 +201,21 @@ public class ProviderServiceServiceImpl implements ProviderServiceService {
                 throw new ProviderServiceNotFoundException(providerService.getId());
             }
 
+            // Extract primary location
+            ServiceLocation primaryServiceLocation = providerService.getServiceLocations().stream()
+                    .filter(ServiceLocation::getIsPrimary)
+                    .findFirst()
+                    .orElse(null);
+
+            Location primaryLocation = primaryServiceLocation != null ? primaryServiceLocation.getLocation() : null;
+            log.info("Primary location extracted from provider service {}", primaryLocation);
+
+            // Extract all location IDs
+            List<String> locationNames = providerService.getServiceLocations().stream()
+                    .map(sl -> sl.getLocation().getName())
+                    .toList();
+
+            assert primaryLocation != null;
             ServiceEventDto eventDto = ServiceEventDto.builder()
                     .eventId(UUID.randomUUID().toString())
                     .serviceId(String.valueOf(providerService.getId()))
@@ -206,6 +228,8 @@ public class ProviderServiceServiceImpl implements ProviderServiceService {
                     .category("HealthCare")
                     .providerId(providerService.getProviderId().toString())
                     .providerName(provider.get().getName())
+                    .primaryLocation(primaryLocation.getName())
+                    .locations(locationNames)
                     .duration(providerService.getDuration())
                     .unit(providerService.getUnit())
                     .price(providerService.getPrice())

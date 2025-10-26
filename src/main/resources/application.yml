@@ -45,7 +45,9 @@ kafka:
     service-events: dev.provider.service.events
   consumer:
     group-id: service-search-indexer
-
+event:
+  publisher:
+    enabled: true
 opensearch:
   host: ${OPENSEARCH_HOST:localhost}
   port: ${OPENSEARCH_PORT:9200}

@@ -43,6 +43,8 @@ public class ServiceEventMapper {
                 .setCategory(serviceEventDto.getCategory())
                 .setProviderId(serviceEventDto.getProviderId())
                 .setProviderName(serviceEventDto.getProviderName())
+                .setPrimaryLocation(serviceEventDto.getPrimaryLocation())
+                .setLocations(serviceEventDto.getLocations())
                 .setDuration(serviceEventDto.getDuration())
                 .setUnit(serviceEventDto.getUnit())
                 .setPrice(serviceEventDto.getPrice().toString())

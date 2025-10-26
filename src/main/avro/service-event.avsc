@@ -44,6 +44,19 @@
       "type": "string"
     },
     {
+      "name": "primaryLocation",
+      "type": "string",
+      "default": ""
+    },
+    {
+      "name": "locations",
+      "type": {
+        "type": "array",
+        "items": "string"
+      },
+      "default": []
+    },
+    {
       "name": "duration",
       "type": "int"
     },

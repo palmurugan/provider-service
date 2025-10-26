@@ -4,6 +4,7 @@ import lombok.Builder;
 import lombok.Data;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 @Data
 @Builder
@@ -18,6 +19,8 @@ public class ServiceEventDto {
     private String category;
     private String providerId;
     private String providerName;
+    private String primaryLocation;
+    private List<String> locations;
     private int duration;
     private String unit;
     private BigDecimal price;
