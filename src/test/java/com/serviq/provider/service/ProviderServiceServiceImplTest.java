@@ -4,10 +4,12 @@ import com.serviq.provider.dto.request.CreateProviderServiceRequest;
 import com.serviq.provider.dto.request.UpdateProviderServiceRequest;
 import com.serviq.provider.dto.response.ProviderServiceResponse;
 import com.serviq.provider.entity.Location;
+import com.serviq.provider.entity.Provider;
 import com.serviq.provider.entity.ProviderService;
 import com.serviq.provider.exception.ProviderServiceNotFoundException;
 import com.serviq.provider.mapper.ProviderServiceMapper;
 import com.serviq.provider.repository.LocationRepository;
+import com.serviq.provider.repository.ProviderRepository;
 import com.serviq.provider.repository.ProviderServiceRepository;
 import com.serviq.provider.service.impl.ProviderServiceServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
@@ -39,6 +41,9 @@ public class ProviderServiceServiceImplTest {
     private ProviderServiceRepository repository;
 
     @Mock
+    private ProviderRepository providerRepository;
+
+    @Mock
     private LocationRepository locationRepository;
 
     @Mock
@@ -52,6 +57,7 @@ public class ProviderServiceServiceImplTest {
     private UUID providerId;
     private UUID categoryId;
     private UUID locationId;
+    private Provider provider;
     private ProviderService entity;
     private ProviderServiceResponse response;
     private CreateProviderServiceRequest createRequest;
@@ -124,6 +130,12 @@ public class ProviderServiceServiceImplTest {
         location = Location.builder()
                 .id(locationId)
                 .name("Location")
+                .isActive(true)
+                .build();
+
+        provider = Provider.builder()
+                .id(providerId)
+                .name("Provider")
                 .isActive(true)
                 .build();
     }
@@ -246,6 +258,7 @@ public class ProviderServiceServiceImplTest {
     void shouldGetProviderServiceByIdSuccessfully() {
         // Given
         when(repository.findById(serviceId)).thenReturn(Optional.of(entity));
+        when(providerRepository.findById(providerId)).thenReturn(Optional.of(provider));
         when(mapper.toResponse(entity)).thenReturn(response);
 
         // When

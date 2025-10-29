@@ -43,6 +43,9 @@ public class ProviderService {
     @Column(nullable = false, columnDefinition = "TEXT")
     private String title;
 
+    @Column(name = "description", columnDefinition = "TEXT")
+    private String description;
+
     @Column(nullable = false)
     private Integer duration;
 

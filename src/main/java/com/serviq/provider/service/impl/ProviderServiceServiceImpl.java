@@ -61,7 +61,7 @@ public class ProviderServiceServiceImpl implements ProviderServiceService {
         // Flush to ensure locations are persisted before publishing event
         repository.flush();
 
-        if(eventPublisherEnabled) {
+        if (eventPublisherEnabled) {
             publishServiceCreatedEvent(savedEntity);
         }
 
@@ -92,7 +92,18 @@ public class ProviderServiceServiceImpl implements ProviderServiceService {
         ProviderService entity = repository.findById(id)
                 .orElseThrow(() -> new ProviderServiceNotFoundException(id));
 
-        return mapper.toResponse(entity);
+        Optional<Provider> provider = providerRepository.findById(entity.getProviderId());
+        if (provider.isEmpty()) {
+            throw new ResourceNotFoundException("Provider Not Found for the id " + entity.getProviderId());
+        }
+
+        ProviderServiceResponse response = mapper.toResponse(entity);
+        response.setProviderName(provider.get().getName());
+
+        entity.getServiceLocations().stream().filter(ServiceLocation::getIsPrimary).forEach(sl -> {
+            response.setPrimaryLocation(sl.getLocation().getName());
+        });
+        return response;
     }
 
     @Override

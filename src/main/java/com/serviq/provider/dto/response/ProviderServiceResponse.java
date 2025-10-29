@@ -19,7 +19,9 @@ public class ProviderServiceResponse {
     private UUID orgId;
     private UUID providerId;
     private UUID categoryId;
+    private String providerName;
     private String title;
+    private String description;
     private Integer duration;
     private String unit;
     private BigDecimal price;
@@ -27,5 +29,6 @@ public class ProviderServiceResponse {
     private Integer maxCapacity;
     private Boolean isActive;
     private Map<String, Object> metadata;
+    private String primaryLocation;
     private Set<LocationResponse> locations;
 }

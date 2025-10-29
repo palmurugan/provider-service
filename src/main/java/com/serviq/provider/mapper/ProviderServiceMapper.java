@@ -52,8 +52,8 @@ public interface ProviderServiceMapper {
     @Mapping(target = "postalCode", source = "location.postalCode")
     @Mapping(target = "latitude", source = "location.latitude")
     @Mapping(target = "longitude", source = "location.longitude")
-    //@Mapping(target = "isPrimary", source = "isPrimary")
-    //@Mapping(target = "isActive", source = "isActive")
+    @Mapping(target = "isPrimary", source = "isPrimary")
+    @Mapping(target = "isActive", source = "isActive")
     //@Mapping(target = "createdAt", source = "createdAt")
     LocationResponse toLocationResponse(ServiceLocation serviceLocation);
 

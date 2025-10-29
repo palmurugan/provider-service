@@ -21,5 +21,6 @@ public class LocationResponse {
     private String postalCode;
     private BigDecimal latitude;
     private BigDecimal longitude;
+    private Boolean isPrimary;
     private Boolean isActive;
 }

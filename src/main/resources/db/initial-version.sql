@@ -152,3 +152,5 @@ CREATE TABLE provider.slots (
     FOREIGN KEY (provider_id) REFERENCES provider(id),
     FOREIGN KEY (provider_service_id) REFERENCES provider_service(id)
 );
+
+alter table provider.provider_service add column description TEXT;
