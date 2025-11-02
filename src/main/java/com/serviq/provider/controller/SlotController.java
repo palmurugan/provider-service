@@ -82,7 +82,7 @@ public class SlotController {
             @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate slotDate) {
         log.info("Request to get available slots for provider: {}, service: {}, date: {}",
                 providerId, providerServiceId, slotDate);
-        List<SlotResponseDto> response = slotService.getAvailableSlots(providerId, providerServiceId, slotDate);
+        List<SlotResponseDto> response = slotService.getAllAvailableSlots(providerId, providerServiceId, slotDate);
         return ResponseEntity.ok(response);
     }
 
