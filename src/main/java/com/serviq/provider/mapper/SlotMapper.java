@@ -2,7 +2,10 @@ package com.serviq.provider.mapper;
 
 import com.serviq.provider.dto.request.CreateSlotRequestDto;
 import com.serviq.provider.dto.request.UpdateSlotRequestDto;
+import com.serviq.provider.dto.response.SlotAvailabilityResponse;
+import com.serviq.provider.dto.response.SlotResponse;
 import com.serviq.provider.dto.response.SlotResponseDto;
+import com.serviq.provider.entity.AvailableSlot;
 import com.serviq.provider.entity.Slot;
 import com.serviq.provider.entity.enums.SlotStatus;
 import org.springframework.stereotype.Component;
@@ -93,5 +96,45 @@ public class SlotMapper {
         if (dto.getStatus() != null) {
             slot.setStatus(dto.getStatus());
         }
+    }
+
+    public SlotResponse toResponse(AvailableSlot entity) {
+        return SlotResponse.builder()
+                .id(entity.getId())
+                .orgId(entity.getOrgId())
+                .providerId(entity.getProviderId())
+                .serviceId(entity.getServiceId())
+                .configId(entity.getConfigId())
+                .slotDate(entity.getSlotDate())
+                .slotStart(entity.getSlotStart())
+                .slotEnd(entity.getSlotEnd())
+                .availableCapacity(entity.getAvailableCapacity())
+                .isBooked(entity.getIsBooked())
+                .metadata(entity.getMetadata())
+                .build();
+    }
+
+    public SlotAvailabilityResponse toAvailabilityResponse(AvailableSlot entity) {
+        boolean isAvailable = !entity.getIsBooked() && entity.getAvailableCapacity() > 0;
+        String status = determineStatus(entity);
+
+        return SlotAvailabilityResponse.builder()
+                .slotId(entity.getId())
+                .slotDate(entity.getSlotDate())
+                .slotStart(entity.getSlotStart())
+                .slotEnd(entity.getSlotEnd())
+                .availableCapacity(entity.getAvailableCapacity())
+                .isAvailable(isAvailable)
+                .status(status)
+                .build();
+    }
+
+    private String determineStatus(AvailableSlot slot) {
+        if (slot.getIsBooked() || slot.getAvailableCapacity() == 0) {
+            return "FULLY_BOOKED";
+        } else if (slot.getAvailableCapacity() > 0) {
+            return slot.getAvailableCapacity() == 1 ? "AVAILABLE" : "AVAILABLE";
+        }
+        return "AVAILABLE";
     }
 }
