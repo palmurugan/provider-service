@@ -1,0 +1,161 @@
+category,title,duration,unit,price,currency,maxCapacity
+Home Service,Floor Mopping,60,MINUTES,250,INR,2
+Home Service,Floor Mopping,45,MINUTES,200,INR,2
+Home Service,Bathroom Cleaning,30,MINUTES,100,INR,2
+Home Service,Bathroom Cleaning,90,MINUTES,100,INR,1
+Home Service,Carpet Vacuum,45,MINUTES,500,INR,2
+Home Service,Carpet Vacuum,45,MINUTES,250,INR,2
+Home Service,Window Cleaning,30,MINUTES,250,INR,1
+Home Service,Window Cleaning,30,MINUTES,150,INR,2
+Home Service,Sofa Shampoo,30,MINUTES,150,INR,3
+Home Service,Sofa Shampoo,90,MINUTES,600,INR,3
+Home Service,Kitchen Deep Clean,90,MINUTES,250,INR,3
+Home Service,Kitchen Deep Clean,60,MINUTES,400,INR,1
+Home Service,Pest Control,90,MINUTES,200,INR,3
+Home Service,Pest Control,30,MINUTES,600,INR,3
+Home Service,Plumbing Repair,60,MINUTES,600,INR,3
+Home Service,Plumbing Repair,90,MINUTES,400,INR,3
+Home Service,Electrical Fix,90,MINUTES,100,INR,2
+Home Service,Electrical Fix,45,MINUTES,250,INR,2
+Home Service,AC Servicing,45,MINUTES,600,INR,2
+Home Service,AC Servicing,45,MINUTES,400,INR,1
+Beauty & Wellness,Haircut,60,MINUTES,200,INR,1
+Beauty & Wellness,Haircut,30,MINUTES,600,INR,2
+Beauty & Wellness,Facial,60,MINUTES,100,INR,3
+Beauty & Wellness,Facial,45,MINUTES,150,INR,1
+Beauty & Wellness,Pedicure,45,MINUTES,200,INR,2
+Beauty & Wellness,Pedicure,45,MINUTES,100,INR,2
+Beauty & Wellness,Manicure,90,MINUTES,150,INR,1
+Beauty & Wellness,Manicure,45,MINUTES,100,INR,2
+Beauty & Wellness,Hair Spa,30,MINUTES,500,INR,3
+Beauty & Wellness,Hair Spa,60,MINUTES,150,INR,3
+Beauty & Wellness,Massage Therapy,60,MINUTES,250,INR,3
+Beauty & Wellness,Massage Therapy,45,MINUTES,100,INR,3
+Beauty & Wellness,Makeup,60,MINUTES,200,INR,1
+Beauty & Wellness,Makeup,60,MINUTES,150,INR,3
+Beauty & Wellness,Waxing,90,MINUTES,150,INR,1
+Beauty & Wellness,Waxing,90,MINUTES,600,INR,2
+Beauty & Wellness,Threading,45,MINUTES,250,INR,3
+Beauty & Wellness,Threading,30,MINUTES,500,INR,1
+Beauty & Wellness,Beard Trim,30,MINUTES,300,INR,2
+Beauty & Wellness,Beard Trim,30,MINUTES,500,INR,2
+Automobile,Car Wash,60,MINUTES,100,INR,2
+Automobile,Car Wash,30,MINUTES,400,INR,3
+Automobile,Bike Wash,45,MINUTES,500,INR,1
+Automobile,Bike Wash,60,MINUTES,150,INR,1
+Automobile,Oil Change,90,MINUTES,100,INR,1
+Automobile,Oil Change,45,MINUTES,600,INR,1
+Automobile,Battery Replacement,45,MINUTES,300,INR,1
+Automobile,Battery Replacement,45,MINUTES,100,INR,1
+Automobile,Wheel Alignment,30,MINUTES,600,INR,3
+Automobile,Wheel Alignment,30,MINUTES,500,INR,1
+Automobile,Car Interior Cleaning,45,MINUTES,100,INR,2
+Automobile,Car Interior Cleaning,90,MINUTES,600,INR,1
+Automobile,Tyre Replacement,90,MINUTES,600,INR,1
+Automobile,Tyre Replacement,90,MINUTES,150,INR,2
+Automobile,Brake Inspection,90,MINUTES,300,INR,2
+Automobile,Brake Inspection,60,MINUTES,300,INR,2
+Automobile,Car AC Check,30,MINUTES,500,INR,3
+Automobile,Car AC Check,45,MINUTES,250,INR,1
+Automobile,Car Polishing,45,MINUTES,150,INR,1
+Automobile,Car Polishing,45,MINUTES,250,INR,1
+Health Care,Physiotherapy Session,90,MINUTES,400,INR,1
+Health Care,Physiotherapy Session,90,MINUTES,400,INR,2
+Health Care,Home Nurse Visit,30,MINUTES,200,INR,1
+Health Care,Home Nurse Visit,60,MINUTES,300,INR,1
+Health Care,Blood Test,60,MINUTES,500,INR,3
+Health Care,Blood Test,45,MINUTES,600,INR,1
+Health Care,Doctor Consultation,45,MINUTES,500,INR,2
+Health Care,Doctor Consultation,45,MINUTES,200,INR,2
+Health Care,ECG Test,60,MINUTES,150,INR,2
+Health Care,ECG Test,45,MINUTES,150,INR,1
+Health Care,Diabetes Check,30,MINUTES,150,INR,2
+Health Care,Diabetes Check,60,MINUTES,100,INR,3
+Health Care,Vaccination,60,MINUTES,100,INR,3
+Health Care,Vaccination,30,MINUTES,250,INR,2
+Health Care,Elderly Care,30,MINUTES,500,INR,3
+Health Care,Elderly Care,60,MINUTES,300,INR,3
+Health Care,Health Checkup,45,MINUTES,200,INR,2
+Health Care,Health Checkup,45,MINUTES,100,INR,1
+Health Care,Eye Checkup,45,MINUTES,400,INR,3
+Health Care,Eye Checkup,30,MINUTES,400,INR,1
+Education,Math Tutoring,90,MINUTES,400,INR,1
+Education,Math Tutoring,60,MINUTES,500,INR,2
+Education,Science Tutoring,30,MINUTES,400,INR,1
+Education,Science Tutoring,30,MINUTES,150,INR,2
+Education,English Tutoring,60,MINUTES,150,INR,3
+Education,English Tutoring,60,MINUTES,300,INR,2
+Education,Coding Class,45,MINUTES,150,INR,2
+Education,Coding Class,45,MINUTES,250,INR,1
+Education,Music Lesson,60,MINUTES,250,INR,3
+Education,Music Lesson,60,MINUTES,100,INR,3
+Education,Dance Class,90,MINUTES,300,INR,3
+Education,Dance Class,30,MINUTES,500,INR,1
+Education,Art Class,30,MINUTES,500,INR,1
+Education,Art Class,45,MINUTES,400,INR,1
+Education,Language Class,45,MINUTES,400,INR,2
+Education,Language Class,90,MINUTES,100,INR,1
+Education,Career Counseling,60,MINUTES,100,INR,2
+Education,Career Counseling,90,MINUTES,250,INR,3
+Education,Exam Preparation,45,MINUTES,600,INR,3
+Education,Exam Preparation,90,MINUTES,150,INR,3
+Fitness,Yoga Session,90,MINUTES,250,INR,2
+Fitness,Yoga Session,30,MINUTES,400,INR,2
+Fitness,Zumba Class,90,MINUTES,400,INR,1
+Fitness,Zumba Class,30,MINUTES,600,INR,1
+Fitness,Personal Training,60,MINUTES,500,INR,1
+Fitness,Personal Training,90,MINUTES,250,INR,3
+Fitness,Diet Consultation,45,MINUTES,300,INR,3
+Fitness,Diet Consultation,45,MINUTES,300,INR,1
+Fitness,Meditation Session,45,MINUTES,600,INR,1
+Fitness,Meditation Session,30,MINUTES,300,INR,1
+Fitness,Crossfit Training,30,MINUTES,400,INR,1
+Fitness,Crossfit Training,45,MINUTES,500,INR,3
+Fitness,Aerobics,60,MINUTES,400,INR,2
+Fitness,Aerobics,90,MINUTES,300,INR,2
+Fitness,Pilates,30,MINUTES,600,INR,2
+Fitness,Pilates,60,MINUTES,600,INR,3
+Fitness,HIIT Workout,90,MINUTES,600,INR,3
+Fitness,HIIT Workout,30,MINUTES,600,INR,3
+Fitness,Gym Session,30,MINUTES,500,INR,3
+Fitness,Gym Session,45,MINUTES,250,INR,3
+Pet Care,Pet Grooming,60,MINUTES,500,INR,3
+Pet Care,Pet Grooming,45,MINUTES,100,INR,3
+Pet Care,Dog Walking,30,MINUTES,100,INR,1
+Pet Care,Dog Walking,45,MINUTES,400,INR,2
+Pet Care,Vet Visit,45,MINUTES,150,INR,2
+Pet Care,Vet Visit,90,MINUTES,400,INR,1
+Pet Care,Pet Boarding,45,MINUTES,200,INR,1
+Pet Care,Pet Boarding,30,MINUTES,400,INR,1
+Pet Care,Pet Training,45,MINUTES,200,INR,1
+Pet Care,Pet Training,30,MINUTES,500,INR,3
+Pet Care,Pet Sitting,45,MINUTES,150,INR,2
+Pet Care,Pet Sitting,45,MINUTES,250,INR,1
+Pet Care,Vaccination for Pets,30,MINUTES,600,INR,1
+Pet Care,Vaccination for Pets,45,MINUTES,200,INR,3
+Pet Care,Pet Nutrition,60,MINUTES,100,INR,2
+Pet Care,Pet Nutrition,90,MINUTES,100,INR,1
+Pet Care,Pet Photography,60,MINUTES,150,INR,3
+Pet Care,Pet Photography,60,MINUTES,300,INR,1
+Pet Care,Pet Taxi,30,MINUTES,100,INR,3
+Pet Care,Pet Taxi,60,MINUTES,150,INR,3
+Repair,Mobile Repair,90,MINUTES,600,INR,1
+Repair,Mobile Repair,60,MINUTES,150,INR,3
+Repair,Laptop Repair,30,MINUTES,250,INR,1
+Repair,Laptop Repair,45,MINUTES,500,INR,1
+Repair,TV Repair,30,MINUTES,200,INR,2
+Repair,TV Repair,45,MINUTES,200,INR,3
+Repair,Refrigerator Repair,60,MINUTES,300,INR,2
+Repair,Refrigerator Repair,60,MINUTES,100,INR,2
+Repair,Washing Machine Repair,45,MINUTES,200,INR,3
+Repair,Washing Machine Repair,60,MINUTES,600,INR,1
+Repair,Microwave Repair,30,MINUTES,100,INR,2
+Repair,Microwave Repair,60,MINUTES,200,INR,3
+Repair,Fan Installation,30,MINUTES,200,INR,2
+Repair,Fan Installation,30,MINUTES,100,INR,2
+Repair,CCTV Installation,60,MINUTES,500,INR,2
+Repair,CCTV Installation,30,MINUTES,250,INR,2
+Repair,Water Purifier Service,30,MINUTES,400,INR,2
+Repair,Water Purifier Service,45,MINUTES,200,INR,1
+Repair,Geyser Repair,90,MINUTES,400,INR,1
+Repair,Geyser Repair,90,MINUTES,400,INR,1
