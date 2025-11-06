@@ -1,0 +1,90 @@
+providerName,category,title,duration,unit,price,currency,maxCapacity
+AutoCare Experts,Automobile,Battery Replacement,30,MINUTES,200,INR,3
+AutoCare Experts,Automobile,Bike Wash,30,MINUTES,200,INR,1
+AutoCare Experts,Automobile,Brake Inspection,90,MINUTES,250,INR,1
+AutoCare Experts,Automobile,Car AC Check,90,MINUTES,500,INR,2
+AutoCare Experts,Automobile,Car Interior Cleaning,30,MINUTES,150,INR,2
+AutoCare Experts,Automobile,Car Polishing,90,MINUTES,150,INR,1
+AutoCare Experts,Automobile,Car Wash,60,MINUTES,400,INR,2
+AutoCare Experts,Automobile,Oil Change,45,MINUTES,300,INR,3
+AutoCare Experts,Automobile,Tyre Replacement,45,MINUTES,300,INR,3
+AutoCare Experts,Automobile,Wheel Alignment,60,MINUTES,200,INR,1
+AutoZone,Automobile,Bike Wash,90,MINUTES,150,INR,1
+BrightMind Tutors,Education,Art Class,90,MINUTES,150,INR,1
+BrightMind Tutors,Education,Career Counseling,30,MINUTES,200,INR,2
+BrightMind Tutors,Education,Coding Class,60,MINUTES,300,INR,1
+BrightMind Tutors,Education,Dance Class,60,MINUTES,350,INR,1
+BrightMind Tutors,Education,English Tutoring,90,MINUTES,150,INR,3
+BrightMind Tutors,Education,Exam Preparation,60,MINUTES,400,INR,3
+BrightMind Tutors,Education,Language Class,30,MINUTES,450,INR,2
+BrightMind Tutors,Education,Math Tutoring,60,MINUTES,250,INR,2
+BrightMind Tutors,Education,Music Lesson,30,MINUTES,150,INR,2
+BrightMind Tutors,Education,Science Tutoring,45,MINUTES,200,INR,3
+CleanPro Services,Home Service,AC Servicing,90,MINUTES,250,INR,2
+CleanPro Services,Home Service,Bathroom Cleaning,60,MINUTES,350,INR,3
+CleanPro Services,Home Service,Carpet Vacuum,90,MINUTES,450,INR,3
+CleanPro Services,Home Service,Electrical Fix,45,MINUTES,500,INR,3
+CleanPro Services,Home Service,Floor Mopping,30,MINUTES,450,INR,2
+CleanPro Services,Home Service,Kitchen Deep Clean,45,MINUTES,500,INR,1
+CleanPro Services,Home Service,Pest Control,60,MINUTES,500,INR,1
+CleanPro Services,Home Service,Plumbing Repair,60,MINUTES,400,INR,3
+CleanPro Services,Home Service,Sofa Shampoo,90,MINUTES,250,INR,3
+CleanPro Services,Home Service,Window Cleaning,60,MINUTES,200,INR,2
+EduMaster,Beauty & Wellness,Pedicure,60,MINUTES,400,INR,2
+EliteCare Solutions,Repair,Washing Machine Repair,60,MINUTES,200,INR,3
+FitHub,Home Service,Floor Mopping,45,MINUTES,350,INR,1
+FitZone Studio,Fitness,Aerobics,45,MINUTES,400,INR,1
+FitZone Studio,Fitness,Crossfit Training,90,MINUTES,400,INR,2
+FitZone Studio,Fitness,Diet Consultation,45,MINUTES,400,INR,1
+FitZone Studio,Fitness,Gym Session,45,MINUTES,500,INR,3
+FitZone Studio,Fitness,HIIT Workout,30,MINUTES,350,INR,1
+FitZone Studio,Fitness,Meditation Session,30,MINUTES,500,INR,3
+FitZone Studio,Fitness,Personal Training,45,MINUTES,500,INR,2
+FitZone Studio,Fitness,Pilates,30,MINUTES,500,INR,2
+FitZone Studio,Fitness,Yoga Session,30,MINUTES,450,INR,1
+FitZone Studio,Fitness,Zumba Class,90,MINUTES,400,INR,2
+FixIt Technicians,Repair,CCTV Installation,90,MINUTES,450,INR,2
+FixIt Technicians,Repair,Fan Installation,30,MINUTES,350,INR,3
+FixIt Technicians,Repair,Geyser Repair,60,MINUTES,400,INR,3
+FixIt Technicians,Repair,Laptop Repair,45,MINUTES,500,INR,3
+FixIt Technicians,Repair,Microwave Repair,60,MINUTES,450,INR,1
+FixIt Technicians,Repair,Mobile Repair,30,MINUTES,400,INR,1
+FixIt Technicians,Repair,Refrigerator Repair,45,MINUTES,300,INR,3
+FixIt Technicians,Repair,TV Repair,90,MINUTES,250,INR,2
+FixIt Technicians,Repair,Washing Machine Repair,60,MINUTES,250,INR,1
+FixIt Technicians,Repair,Water Purifier Service,90,MINUTES,200,INR,1
+GlowHub Spa,Beauty & Wellness,Beard Trim,90,MINUTES,250,INR,2
+GlowHub Spa,Beauty & Wellness,Facial,30,MINUTES,450,INR,2
+GlowHub Spa,Beauty & Wellness,Hair Spa,45,MINUTES,150,INR,1
+GlowHub Spa,Beauty & Wellness,Haircut,45,MINUTES,350,INR,3
+GlowHub Spa,Beauty & Wellness,Makeup,45,MINUTES,400,INR,3
+GlowHub Spa,Beauty & Wellness,Manicure,90,MINUTES,300,INR,3
+GlowHub Spa,Beauty & Wellness,Massage Therapy,30,MINUTES,450,INR,3
+GlowHub Spa,Beauty & Wellness,Pedicure,30,MINUTES,450,INR,1
+GlowHub Spa,Beauty & Wellness,Threading,90,MINUTES,150,INR,2
+GlowHub Spa,Beauty & Wellness,Waxing,45,MINUTES,500,INR,1
+HappyPaws Center,Pet Care,Dog Walking,45,MINUTES,350,INR,2
+HappyPaws Center,Pet Care,Pet Boarding,45,MINUTES,300,INR,1
+HappyPaws Center,Pet Care,Pet Grooming,30,MINUTES,350,INR,1
+HappyPaws Center,Pet Care,Pet Nutrition,45,MINUTES,300,INR,3
+HappyPaws Center,Pet Care,Pet Photography,60,MINUTES,200,INR,1
+HappyPaws Center,Pet Care,Pet Sitting,60,MINUTES,500,INR,2
+HappyPaws Center,Pet Care,Pet Taxi,90,MINUTES,350,INR,3
+HappyPaws Center,Pet Care,Pet Training,90,MINUTES,350,INR,3
+HappyPaws Center,Pet Care,Vaccination for Pets,30,MINUTES,400,INR,3
+HappyPaws Center,Pet Care,Vet Visit,60,MINUTES,250,INR,3
+MedAssist HomeCare,Health Care,Blood Test,45,MINUTES,200,INR,1
+MedAssist HomeCare,Health Care,Diabetes Check,60,MINUTES,400,INR,3
+MedAssist HomeCare,Health Care,Doctor Consultation,45,MINUTES,400,INR,2
+MedAssist HomeCare,Health Care,ECG Test,60,MINUTES,450,INR,1
+MedAssist HomeCare,Health Care,Elderly Care,30,MINUTES,200,INR,2
+MedAssist HomeCare,Health Care,Eye Checkup,30,MINUTES,150,INR,1
+MedAssist HomeCare,Health Care,Health Checkup,90,MINUTES,450,INR,1
+MedAssist HomeCare,Health Care,Home Nurse Visit,30,MINUTES,200,INR,3
+MedAssist HomeCare,Health Care,Physiotherapy Session,30,MINUTES,400,INR,1
+MedAssist HomeCare,Health Care,Vaccination,60,MINUTES,200,INR,3
+PetWorld,Education,Dance Class,45,MINUTES,300,INR,3
+PrimeWellness,Health Care,Eye Checkup,90,MINUTES,500,INR,1
+QuickFix Services,Health Care,Blood Test,60,MINUTES,350,INR,2
+RepairMania,Beauty & Wellness,Makeup,45,MINUTES,300,INR,1
+UrbanHelp Center,Fitness,Diet Consultation,45,MINUTES,350,INR,3
