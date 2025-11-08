@@ -5,7 +5,7 @@ spring:
   application:
     name: provider-service
   datasource:
-    url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://localhost:5432/smartmart?currentSchema=provider}
+    url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://192.168.1.42:5432/smartmart?currentSchema=provider&sslmode=disable}
     username: ${SPRING_DATASOURCE_USERNAME:postgres}
     password: ${SPRING_DATASOURCE_PASSWORD:postgres}
     driver-class-name: org.postgresql.Driver
@@ -29,9 +29,9 @@ spring:
             non_contextual_creation: true
 
   kafka:
-    bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVERS:localhost:9092}
+    bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVERS:192.168.1.42:9092}
     properties:
-      schema.registry.url: ${SCHEMA_REGISTRY_URL:http://localhost:8081}
+      schema.registry.url: ${SCHEMA_REGISTRY_URL:http://192.168.1.42:8081}
 
 kafka:
   topic:
@@ -40,7 +40,7 @@ kafka:
     group-id: service-search-indexer
 
 opensearch:
-  host: ${OPENSEARCH_HOST:localhost}
+  host: ${OPENSEARCH_HOST:192.168.1.42}
   port: ${OPENSEARCH_PORT:9200}
   username: ${OPENSEARCH_USERNAME:admin}
   password: ${OPENSEARCH_PASSWORD:admin}
