@@ -1,4 +1,4 @@
-# Provider Service
+# Provider Service 
 
 ## Overview
 The Provider Service is a core microservice responsible for managing service providers, their services, availability configurations, and appointment slots within the Serviq platform.
