@@ -33,24 +33,20 @@ public interface SlotRepository extends JpaRepository<Slot, UUID> {
             UUID providerId, UUID providerServiceId, LocalDate slotDate);
 
     // Find available slots
-    @Query("SELECT s FROM Slot s WHERE s.providerId = :providerId " +
-            "AND s.providerServiceId = :providerServiceId " +
+    @Query("SELECT s FROM Slot s WHERE s.providerServiceId = :providerServiceId " +
             "AND s.slotDate = :slotDate " +
             "AND s.status = 'AVAILABLE' " +
             "AND s.bookedCount < s.capacity " +
             "ORDER BY s.startTime")
     List<Slot> findAvailableSlots(
-            @Param("providerId") UUID providerId,
             @Param("providerServiceId") UUID providerServiceId,
             @Param("slotDate") LocalDate slotDate
     );
 
-    @Query("SELECT s FROM Slot s WHERE s.providerId = :providerId " +
-            "AND s.providerServiceId = :providerServiceId " +
+    @Query("SELECT s FROM Slot s WHERE s.providerServiceId = :providerServiceId " +
             "AND s.slotDate = :slotDate " +
             "ORDER BY s.startTime")
     List<Slot> findAllSlotsForTheDate(
-            @Param("providerId") UUID providerId,
             @Param("providerServiceId") UUID providerServiceId,
             @Param("slotDate") LocalDate slotDate
     );

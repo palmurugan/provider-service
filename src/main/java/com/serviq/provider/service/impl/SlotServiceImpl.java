@@ -160,19 +160,17 @@ public class SlotServiceImpl implements SlotService {
 
     @Override
     @Transactional(readOnly = true)
-    public List<SlotResponseDto> getAvailableSlots(UUID providerId, UUID providerServiceId, LocalDate slotDate) {
-        log.debug("Fetching available slots for provider: {}, service: {}, date: {}",
-                providerId, providerServiceId, slotDate);
+    public List<SlotResponseDto> getAvailableSlots(UUID providerServiceId, LocalDate slotDate) {
+        log.debug("Fetching available slots for service: {}, date: {}", providerServiceId, slotDate);
 
-        List<Slot> slots = slotRepository.findAvailableSlots(providerId, providerServiceId, slotDate);
+        List<Slot> slots = slotRepository.findAvailableSlots(providerServiceId, slotDate);
         return slotMapper.toResponseDtoList(slots);
     }
 
     @Override
-    public List<SlotResponseDto> getAllAvailableSlots(UUID providerId, UUID providerServiceId, LocalDate slotDate) {
-        log.debug("Fetching all available slots for provider: {}, service: {}, date: {}",
-                providerId, providerServiceId, slotDate);
-        List<Slot> slots = slotRepository.findAllSlotsForTheDate(providerId, providerServiceId, slotDate);
+    public List<SlotResponseDto> getAllAvailableSlots(UUID providerServiceId, LocalDate slotDate) {
+        log.debug("Fetching all available slots for service: {}, date: {}", providerServiceId, slotDate);
+        List<Slot> slots = slotRepository.findAllSlotsForTheDate(providerServiceId, slotDate);
         return slotMapper.toResponseDtoList(slots);
     }
 

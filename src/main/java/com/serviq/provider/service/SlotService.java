@@ -47,12 +47,12 @@ public interface SlotService {
     /**
      * Get available slots for a specific date
      */
-    List<SlotResponseDto> getAvailableSlots(UUID providerId, UUID providerServiceId, LocalDate slotDate);
+    List<SlotResponseDto> getAvailableSlots(UUID providerServiceId, LocalDate slotDate);
 
     /**
      * Get available slots for a specific date
      */
-    List<SlotResponseDto> getAllAvailableSlots(UUID providerId, UUID providerServiceId, LocalDate slotDate);
+    List<SlotResponseDto> getAllAvailableSlots(UUID providerServiceId, LocalDate slotDate);
 
     /**
      * Get slots by date range

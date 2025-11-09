@@ -76,13 +76,10 @@ public class SlotController {
     }
 
     @GetMapping("/available")
-    public ResponseEntity<List<SlotResponseDto>> getAvailableSlots(
-            @RequestParam UUID providerId,
-            @RequestParam UUID providerServiceId,
+    public ResponseEntity<List<SlotResponseDto>> getAvailableSlots(@RequestParam UUID providerServiceId,
             @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate slotDate) {
-        log.info("Request to get available slots for provider: {}, service: {}, date: {}",
-                providerId, providerServiceId, slotDate);
-        List<SlotResponseDto> response = slotService.getAllAvailableSlots(providerId, providerServiceId, slotDate);
+        log.info("Request to get available slots for service: {}, date: {}", providerServiceId, slotDate);
+        List<SlotResponseDto> response = slotService.getAllAvailableSlots(providerServiceId, slotDate);
         return ResponseEntity.ok(response);
     }
 
