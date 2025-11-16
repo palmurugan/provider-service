@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: provider-service
+  labels:
+    app: provider-service
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: provider-service
+  template:
+    metadata:
+      labels:
+        app: provider-service
+    spec:
+      containers:
+        - name: provider-service
+          image: provider-service:latest
+          imagePullPolicy: Never   # Important for Minikube (uses local Docker image)
+          ports:
+            - containerPort: 7073
+          env:
+            - name: SPRING_PROFILES_ACTIVE
+              value: "qa"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: provider-service
+spec:
+  type: LoadBalancer
+  selector:
+    app: provider-service
+  ports:
+    - port: 7073
+      targetPort: 7073
+      nodePort: 30080
