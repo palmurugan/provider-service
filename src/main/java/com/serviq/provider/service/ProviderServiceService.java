@@ -80,6 +80,14 @@ public interface ProviderServiceService {
     Page<ProviderServiceResponse> getActiveServicesByOrgId(UUID orgId, Pageable pageable);
 
     /**
+     * Search services by name
+     * @param searchTerm the keyword
+     * @param pageable pagination information
+     * @return page of provider service responses
+     */
+    Page<ProviderServiceResponse> searchServices(String searchTerm, Pageable pageable);
+
+    /**
      * Get all services by category ID
      *
      * @param categoryId the category ID

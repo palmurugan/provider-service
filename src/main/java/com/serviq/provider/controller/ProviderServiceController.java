@@ -1,6 +1,7 @@
 package com.serviq.provider.controller;
 
 import com.serviq.provider.dto.request.CreateProviderServiceRequest;
+import com.serviq.provider.dto.request.SearchRequest;
 import com.serviq.provider.dto.request.UpdateProviderServiceRequest;
 import com.serviq.provider.dto.response.ProviderServiceResponse;
 import com.serviq.provider.service.ProviderServiceService;
@@ -140,6 +141,13 @@ public class ProviderServiceController {
 
         Page<ProviderServiceResponse> responses = providerServiceService.getServicesByOrgId(orgId, pageable);
         return ResponseEntity.ok(responses);
+    }
+
+    @PostMapping("/search")
+    public ResponseEntity<Page<ProviderServiceResponse>> getServicesByOrgId(@Valid @RequestBody SearchRequest request,
+                                                                            Pageable pageable) {
+        log.info("REST request to search services: {}", request.getKeyword());
+        return ResponseEntity.ok(providerServiceService.searchServices(request.getKeyword(), pageable));
     }
 
     @GetMapping("/organization/{orgId}/active")

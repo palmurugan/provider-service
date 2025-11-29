@@ -46,6 +46,9 @@ public interface ProviderServiceRepository extends JpaRepository<ProviderService
     @Query("SELECT ps FROM ProviderService ps WHERE ps.orgId = :orgId AND ps.isActive = true")
     Page<ProviderService> findActiveServicesByOrgId(@Param("orgId") UUID orgId, Pageable pageable);
 
+    @Query("SELECT ps from ProviderService ps WHERE LOWER(ps.title) like LOWER(CONCAT('%', :searchTerm, '%')) and ps.isActive=true")
+    Page<ProviderService> searchProviderServiceByName(@Param("searchTerm") String searchTerm, Pageable pageable);
+
     /**
      * Check if provider has any active services
      */

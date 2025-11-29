@@ -154,6 +154,12 @@ public class ProviderServiceServiceImpl implements ProviderServiceService {
     }
 
     @Override
+    public Page<ProviderServiceResponse> searchServices(String searchTerm, Pageable pageable) {
+        log.debug("Searching services with term: {} with pagination", searchTerm);
+        return repository.searchProviderServiceByName(searchTerm, pageable).map(mapper::toResponse);
+    }
+
+    @Override
     public List<ProviderServiceResponse> getServicesByCategoryId(UUID categoryId) {
         log.debug("Fetching services for category: {}", categoryId);
 
